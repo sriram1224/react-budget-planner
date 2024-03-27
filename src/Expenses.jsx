@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { BudgetContext } from './budget.jsx';
 import './Expenses.css';
 
@@ -9,31 +9,6 @@ export default function Expenses() {
     const [cost, setCost] = useState(0);
     const [inputError, setInputError] = useState(false);
     const [newbudget, setNewBudget] = useState(0);
-
-    useEffect(() => {
-        // Retrieve expenses from local storage on component mount
-        const storedExpenses = localStorage.getItem('expenses');
-        if (storedExpenses) {
-            setExpenses(JSON.parse(storedExpenses));
-        }
-
-        // Retrieve budget from local storage on component mount
-        const storedBudget = localStorage.getItem('budget');
-        if (storedBudget) {
-            setBudget(parseInt(storedBudget));
-        }
-    }, []); // Run only once on component mount
-
-    useEffect(() => {
-        // Save expenses to local storage whenever it changes
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-    }, [expenses]); // Run whenever expenses change
-
-    useEffect(() => {
-        // Save budget to local storage whenever it changes
-        localStorage.setItem('budget', budget);
-    }, [budget]); // Run whenever budget changes
-
     const handleName = (e) => {
         setName(e.target.value);
         setInputError(false);
@@ -57,12 +32,17 @@ export default function Expenses() {
         }
     };
 
-    const handleBudget = (e) => { 
-        setNewBudget(parseInt(e.target.value));
-        setBudget(newbudget);
-        setRemaining(newbudget);
-        setSpent(0);
-    };
+  const handleBudget = (e) => { 
+    const newBudgetValue = parseInt(e.target.value);
+    setNewBudget(newBudgetValue);
+    setBudget(newBudgetValue);
+    // Calculate remaining amount based on the new budget value
+    const spentAmount = expenses.reduce((total, expense) => total + expense.cost, 0);
+    const remainingAmount = newBudgetValue - spentAmount;
+    setRemaining(remainingAmount);
+    // Reset spent amount to 0 when budget changes
+    setSpent(spentAmount);
+};
 
     const handleDeleteExpense = (index) => {
         const updatedExpenses = [...expenses];
@@ -78,6 +58,7 @@ export default function Expenses() {
             handleSave();
         }
     };
+
 
     return (
         <div className="expenses-container">
