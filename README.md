@@ -39,10 +39,10 @@ The Budget Planner Website is a React application designed to help users manage 
     ```
 
 ## Repository
-[GitHub Repository](https://github.com/sriram1224/react-budget-planner)
+GitHub Repository(https://github.com/sriram1224/react-budget-planner)
 
 ## Hosted Application
-[Hosted Application](https://budget-planner-beta-ivory.vercel.app/)
+Hosted Application(https://budget-planner-beta-ivory.vercel.app/)
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
