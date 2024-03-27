@@ -26,7 +26,7 @@ The Budget Planner Website is a React application designed to help users manage 
 ## Installation
 1. Clone the repository:
     ```bash
-    [git clone] (https://github.com/sriram1224/react-budget-planner.git)
+    git clone https://github.com/sriram1224/react-budget-planner.git
     ```
 
 3. Install dependencies:
