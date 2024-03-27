@@ -126,3 +126,10 @@
     font-weight: 600;
     margin-top: 5px;
 }
+.enter-budget{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    font-size: 1rem;
+}

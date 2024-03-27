@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { BudgetContext } from './budget.jsx';
 import './Expenses.css';
 
@@ -8,6 +8,31 @@ export default function Expenses() {
     const [name, setName] = useState('');
     const [cost, setCost] = useState(0);
     const [inputError, setInputError] = useState(false);
+    const [newbudget, setNewBudget] = useState(0);
+
+    useEffect(() => {
+        // Retrieve expenses from local storage on component mount
+        const storedExpenses = localStorage.getItem('expenses');
+        if (storedExpenses) {
+            setExpenses(JSON.parse(storedExpenses));
+        }
+
+        // Retrieve budget from local storage on component mount
+        const storedBudget = localStorage.getItem('budget');
+        if (storedBudget) {
+            setBudget(parseInt(storedBudget));
+        }
+    }, []); // Run only once on component mount
+
+    useEffect(() => {
+        // Save expenses to local storage whenever it changes
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+    }, [expenses]); // Run whenever expenses change
+
+    useEffect(() => {
+        // Save budget to local storage whenever it changes
+        localStorage.setItem('budget', budget);
+    }, [budget]); // Run whenever budget changes
 
     const handleName = (e) => {
         setName(e.target.value);
@@ -30,6 +55,13 @@ export default function Expenses() {
         } else {
             setInputError(true);
         }
+    };
+
+    const handleBudget = (e) => { 
+        setNewBudget(parseInt(e.target.value));
+        setBudget(newbudget);
+        setRemaining(newbudget);
+        setSpent(0);
     };
 
     const handleDeleteExpense = (index) => {
@@ -83,11 +115,17 @@ export default function Expenses() {
                                 <span className="material-symbols-outlined">cancel</span>
                             </button>
                         </span>
+                        
                     </div>
                 ))}
             </div>
             <div className="add-expenses">
                 <h1>Add Expenses</h1>
+                <span className="enter-budget">
+                    <label>Enter Budget:</label>
+                <input type='number' name='number' onChange={handleBudget} value={newbudget} placeholder='Enter Budget Here' />
+                </span>
+                <hr />
                 <input type='text' name='name' onChange={handleName} value={name} placeholder='Name' />
                 <input type='number' name='cost' onChange={handleCost} onKeyDown={handleKeyDown} value={cost} placeholder='Cost' />
                 <button onClick={handleSave}>Save</button>
